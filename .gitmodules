@@ -1,0 +1,3 @@
+[submodule "mico_base"]
+	path = mico_base
+	url = https://github.com/argallab/mico_base.git
