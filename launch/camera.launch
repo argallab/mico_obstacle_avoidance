@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- launch mico -->
+  <include file="$(find mico_interaction)/launch/mico_moveit.launch"/>
+
+  <!-- start camera w/ pointcloud, align depth to color -->
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+        <arg name="enable_pointcloud" value="true"/>
+        <arg name="align_depth" value="true"/>
+  </include>
+
+  <!-- node that calculates and publishes camera to chess, chess to world transforms -->
+  <node pkg="mico_octomap" type="calibration.py" name="calibration" output="screen"/>
+
+  <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" output="screen">
+    <rosparam>
+      num_worker_threads: 4
+    </rosparam>
+  </node>
+
+  <node pkg="topic_tools" type="throttle" name="cloud_throttle" args="messages /camera/depth/color/points 10 /cloud_throttled" />
+
+</launch>
