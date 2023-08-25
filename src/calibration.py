@@ -4,25 +4,22 @@ roslib.load_manifest('mico_obstacle_avoidance')
 import rospy
 import tf
 import numpy as np
-
 from sensor_msgs.msg import Image, CameraInfo
 from cv_bridge import CvBridge, CvBridgeError
 import cv2
 import os
-# import sys
-# # adding python directory to the system path
-# sys.path.insert(0, '/home/stephanie/mico_ws/src/python')
-
 from pose_estimation import intrinsics, get_chess_corners
 
-# based on http://wiki.ros.org/cv_bridge/Tutorials/ConvertingBetweenROSImagesAndOpenCVImagesPytho
+'''
+Adapted from
+    Converting between ROS images and OpenCV images (Python)
+    http://wiki.ros.org/cv_bridge/Tutorials/ConvertingBetweenROSImagesAndOpenCVImagesPython
+'''
 
 CHESS = [0.095, -0.125, -0.037] # hardcoded translation from bottom right chess to mico
 
 class calibration_node:
     def __init__(self):
-        # self.image_pub = rospy.Publisher("image_topic_2",Image)
-        
         self.bridge = CvBridge()
         self.color_sub = rospy.Subscriber("/camera/color/image_raw",Image,self.color_callback)
         self.depth_sub = rospy.Subscriber("/camera/aligned_depth_to_color/image_raw",Image,self.depth_callback)
@@ -77,8 +74,6 @@ class calibration_node:
                     rospy.logwarn(e)
                     
                 if self.tvec is not None: # once we have a saved transform
-                    # rospy.loginfo(self.tvec)
-                    # rospy.loginfo(tf.transformations.quaternion_from_matrix(self.r))
                     self.br.sendTransform(self.tvec,
                                 tf.transformations.quaternion_from_matrix(self.r),
                                 rospy.Time.now(),
@@ -95,5 +90,4 @@ if __name__ == '__main__':
     n = calibration_node()
     rospy.init_node('calibration')
     n.perform_calibration()
-    # cv2.destroyAllWindows()
     

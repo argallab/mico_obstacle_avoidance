@@ -10,7 +10,7 @@
   </include>
 
   <!-- node that calculates and publishes camera to chess, chess to world transforms -->
-  <node pkg="mico_octomap" type="calibration.py" name="calibration" output="screen"/>
+  <node pkg="mico_obstacle_avoidance" type="calibration.py" name="calibration" output="screen"/>
 
   <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" output="screen">
     <rosparam>

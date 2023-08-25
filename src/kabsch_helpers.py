@@ -1,14 +1,14 @@
 import cv2 as cv
-
-
 import pyrealsense2 as rs
 import numpy as np
-
 import math
 
+'''
+Adapted from
+    Box dimensions calculation using multiple realsense camera
+    https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python/examples/box_dimensioner_multicam
+'''
 
-# helpers file
-# from box_dimensioner_multicam example from librealsense
 def get_depth_at_pixel(depth_frame, pixel_x, pixel_y):
 	"""
 	Get the depth value at the desired image point

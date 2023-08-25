@@ -7,7 +7,7 @@
 ## Hardware
 - Intel Realsense D435 camera
 - Mico
-- chessboard printout
+- [chessboard printout](https://www.mrpt.org/downloads/camera-calibration-checker-board_9x7.pdf)
 
 ## Dockerfile
 To use mico_obstacle_avoidance within Docker container, follow the [docker instructions](https://github.com/argallab/mico_base#using-mico_base-with-docker) for mico_base, but create the docker container using the `argallab/stephanie_video:base` image
@@ -33,4 +33,5 @@ roslaunch mico_obstacle_avoidance camera.launch
 Make sure that the chessboard printout is within the camera's view. You can check what the camera is seeing by viewing the `/camera/depth/color/points` point cloud in Rviz.
 
 ## Chessboard Placement
-You will need to hardcode the transform from the bottom right corner of the chessboard to the center of mico's base. The translation is hardcoded as the variable `CHESS` at the top of [calibration.py](src/calibration.py).
+You will need to hardcode the transform from the bottom right corner of the chessboard to the center of mico's base. The translation is hardcoded as the variable `CHESS` at the top of [calibration.py](src/calibration.py).  
+You will also need to measure the chessboard printout for the size of one square (in m) and replace the measurements at the top of [pose_estimation.py](src/pose_estimation.py).

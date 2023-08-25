@@ -4,6 +4,18 @@ import kabsch_helpers
 import calibration_kabsch
 import tf
 
+'''
+Adapted from the following resources:
+    Detecting corners locations in subpixels
+    https://docs.opencv.org/3.4/dd/d92/tutorial_corner_subpixels.html
+
+    Pose estimation
+    https://docs.opencv.org/4.x/d7/d53/tutorial_py_pose.html
+
+    Box dimensions calculation using multiple realsense camera
+    https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python/examples/box_dimensioner_multicam
+'''
+
 np.set_printoptions(suppress = True) # suppress scientific notation
 CHESS_HEIGHT = 7 #7x9 board
 CHESS_WIDTH = 9
@@ -11,12 +23,11 @@ CHESS_SIZE = 0.0197 #1.97 cm
 NEEDED_DEPTHS = 30 # how many valid depths we need
 
 # Realsense D435 hardcoded transform from optical to color frame
-# redefinition of axes from optical to camera
-# rosrun tf tf_echo optical color
+# collected from rosrun tf tf_echo optical color
 OPTICAL_TO_COLOR = calibration_kabsch.Transformation(tf.transformations.quaternion_matrix([-0.5, 0.5, -0.5, 0.5])[:3,:3], np.array([0,0,0]))
 COLOR_TO_OPTICAL = calibration_kabsch.Transformation(tf.transformations.quaternion_matrix([0.5, -0.5, 0.5, 0.5])[:3,:3], np.array([0,0,0]))
 
-# rosrun tf tf_echo camera_aligned_depth_to_color_frame camera_link
+# collected from rosrun tf tf_echo camera_aligned_depth_to_color_frame camera_link
 COLOR_TO_CAMERA = calibration_kabsch.Transformation(tf.transformations.quaternion_matrix([0.005, -0.000, -0.001, 1.000])[:3,:3], np.array([0.000, -0.015, -0.000]))
 
 # minimal transform
@@ -102,7 +113,6 @@ def get_camera_pts(corners_2d, depth_frame, color_frame, color_intrinsics, aruco
     return(points_3d, valid_points)
 
 def construct_3d_pts(corners, color_image, depth_image, color_intrinsics):
-    # refine corners (from https://docs.opencv.org/3.4/dd/d92/tutorial_corner_subpixels.html)
     gray_image = cv.cvtColor(color_image, cv.COLOR_BGR2GRAY)
     winSize = (5, 5)
     zeroZone = (-1, -1)
@@ -117,7 +127,6 @@ def construct_3d_pts(corners, color_image, depth_image, color_intrinsics):
         raise Exception("Did not have enough valid depths")
 
 def get_chess_pts(chessboard_height, chessboard_width, chessboard_size, flip = False, verbose = False):
-    # from https://docs.opencv.org/4.x/d7/d53/tutorial_py_pose.html
     # create chessboard corner points in chessboard coord frame (units = m)
     # need to make sure in the same order as points returned by findChessboardCorners
     objp = np.zeros((chessboard_height*chessboard_width,3), np.float32)

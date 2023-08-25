@@ -3,13 +3,15 @@
 ##################################################################################################
 ##                  Box Dimensioner with multiple cameras: Helper files 					  ####
 ##################################################################################################
-# from https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python/examples/box_dimensioner_multicam
-
 import pyrealsense2 as rs
 import calculate_rmsd_kabsch as rmsd
 import numpy as np
-# from helper_functions import cv_find_chessboard, get_chessboard_points_3D, get_depth_at_pixel, convert_depth_pixel_to_metric_coordinate
-# from realsense_device_manager import post_process_depth_frame
+
+'''
+Adapted from
+    Box dimensions calculation using multiple realsense camera
+    https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python/examples/box_dimensioner_multicam
+'''
 
 """
   _   _        _                      _____                     _    _                    
