@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import roslib
-roslib.load_manifest('mico_octomap') 
+roslib.load_manifest('mico_obstacle_avoidance') 
 import rospy
 import tf
 import numpy as np

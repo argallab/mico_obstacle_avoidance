@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package>
-  <name>mico_octomap</name>
+  <name>mico_obstacle_avoidance</name>
   <version>0.0.0</version>
-  <description>The mico_octomap package</description>
+  <description>The mico_obstacle_avoidancepackage</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="root@todo.todo">root</maintainer>
+  <maintainer email="steph.ma517@gmail.com">root</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
